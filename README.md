@@ -106,3 +106,16 @@ The turn moves to the next player after each turn, depending on a set order (clo
 
 
 ## Use Case 4: Customization of Game Room
+
+| **Goal** | Players can customize how they want they game to be played out |
+|:----------|:----------------------------------------------------------------|
+|**Primary actor**| The host of the game room |
+|**Secondary actor**| Players in the room who aren’t host |
+|**Precondition**| The host must have created a room available for joining |
+|**Success end condition**| Can make changes to the game rules / themes before the game starts |
+|**Failure end condition**| Game resets to default rules no matter the settings |
+|**Trigger**| User clicks on “Customize” button |
+|**Main success scenario**|<ol><li>Player navigates to customization tab</li><li>Player makes changes to their liking and confirm</li><li>Server saves setting for the room ID (game rules) and the players in the room (customization)</li><li>The game is customized to the room’s liking</li></ol>|
+|**Variations (error scenarios)**|<ol><li>Non-hosts attempt to alter rules, gets error instead</li><li>Host encounters network error, changes are not applied</li></ol>|
+|**Variations (alternative scenarios)**|<ol><li>Player does not finish / choose to abort customization</li><li>Host chooses not to alter the rules / reset rules to default</li></ol>|
+ 
