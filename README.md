@@ -107,8 +107,9 @@ The turn moves to the next player after each turn, depending on a set order (clo
 
 ## Use Case 4: Customization of Game Room
 
-| **Goal** | Players can customize how they want they game to be played out |
+|||
 |:----------|:----------------------------------------------------------------|
+| **Goal** | Players can customize how they want they game to be played out |
 |**Primary actor**| The host of the game room |
 |**Secondary actor**| Players in the room who aren’t host |
 |**Precondition**| The host must have created a room available for joining |
