@@ -1,6 +1,11 @@
 # cs320_poker
 
 ## Use Case 1: Creating a Game Room
+
+
+
+
+## Use Case 2: Placing a Bet
 #### Description: 
 A player places a bet in the virtual poker game. The server verifies the player’s chip balance and places the bet, then updates the player’s chip balance. This is visible to all players in the game.
 #### Actors: 
@@ -29,11 +34,6 @@ Player specifies a chip amount and places that amount down as bet
 1. Player places a bet when they have insufficient chips, server recognizes this and stop the player from placing invalid bets
 2. Player loses internet connection. Server tries to reconnect them
 3. Host terminates before the players can place their bet. Server attempts to reconnect everyone and starts a new game with a new host
-
-
-
-
-## Use Case 2: Placing a Bet
 
 
 
