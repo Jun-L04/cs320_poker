@@ -10,7 +10,7 @@
 
 ## Use Case 3: Moving "Turn"
 
-## **Goal**  
+### **Goal**  
 The turn moves to the next player after each turn, depending on a set order (clockwise, counter-clockwise, or a custom order).  
 
 ## **Primary Actor**  
