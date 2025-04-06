@@ -60,8 +60,8 @@ class RoomManager:
             del self.rooms[room_name]
 
     async def broadcast(self, room_id: str):
-        usernames = list(self.rooms.get(room_id, {}).keys())
-        for ws in self.rooms.get(room_id, {}).values():
+        usernames = list(self.rooms.get(room_id, {}).players.keys())
+        for ws in self.rooms.get(room_id, {}).players.values():
             await ws.send_json({"type": "update_players", "players": usernames})
 
 # rooms: Dict[str, GameRoom] = {}
@@ -77,7 +77,7 @@ class CreateGameRequest(BaseModel):
 
 
 @app.post("/create_game/")
-async def create_game(request: CreateGameRequest):
+async def create_game(request: CreateGameRequest, websocket:WebSocket):
     logger.debug("creating game room...")
     # validate create room
     if not validate_create_room_request(request):
@@ -86,13 +86,12 @@ async def create_game(request: CreateGameRequest):
     request_name = request.name
     request_capacity = request.max_player
     request_user = request.username
-    request_websocket = WebSocket(`ws://localhost:8000/ws/${room}/${username}`)
     # if request_name not in manager.rooms:
     #     # manager.rooms[request_name] = GameRoom(request_name, request_capacity)
     #     # return {"message": "Game room created!"}
     # ## TODO players with the same name?
     # return {"message": "Game room already exists!"}
-    manager.create(request_name, request_capacity,request_user)
+    manager.create(request_name, request_capacity,request_user,websocket)
 
 def validate_create_room_request(request: CreateGameRequest):
     """Ensures that the request to create a room is valid and acceptable
