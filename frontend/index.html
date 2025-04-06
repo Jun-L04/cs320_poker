@@ -20,7 +20,7 @@
         function connect() {
             const room = document.getElementById("room").value;
             const username = document.getElementById("username").value;
-            socket = new WebSocket(`ws://localhost:8000/ws/${room}/${username}`);
+            socket = new WebSocket(`wss://cs320-poker.onrender.com/ws/${room}/${username}`);
 
             socket.onmessage = function (event) {
                 const data = JSON.parse(event.data);
