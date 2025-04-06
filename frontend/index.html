@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Poker Room</title>
+</head>
+
+<body>
+    <h2>Join Poker Room</h2>
+    <input id="room" placeholder="Room ID" />
+    <input id="username" placeholder="Your Name" />
+    <button onclick="connect()">Join Room</button>
+
+    <h3>Players in Room:</h3>
+    <ul id="players"></ul>
+
+    <script>
+        let socket;
+
+        function connect() {
+            const room = document.getElementById("room").value;
+            const username = document.getElementById("username").value;
+            socket = new WebSocket(`ws://localhost:8000/ws/${room}/${username}`);
+
+            socket.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                if (data.type === "update_players") {
+                    const playersList = document.getElementById("players");
+                    playersList.innerHTML = "";
+                    data.players.forEach(p => {
+                        const li = document.createElement("li");
+                        li.innerText = p;
+                        playersList.appendChild(li);
+                    });
+                }
+            };
+
+            window.onbeforeunload = () => {
+                socket.close();  // triggers disconnect cleanly on server
+            };
+        }
+    </script>
+</body>
+
+</html>
