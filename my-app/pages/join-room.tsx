@@ -51,13 +51,11 @@ export default function JoinRoom() {
       >
         Join Room
       </button>
-
-      {/* Image at bottom right */}
       <Image
         src="/cards.png"
         alt="Corner image"
-        width={100}
-        height={100}
+        width={150}
+        height={150}
         style={{ position: 'fixed', bottom: '0', right: '0' }}
       />
     </div>

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import CreateRoom from '@/pages/create-room';
 import JoinRoom from '@/pages/join-room';
+import { TypeAnimation } from "react-type-animation";
 
 export default function Home() {
   const [view, setView] = useState<'home' | 'create' | 'join'>('home');
@@ -33,15 +34,26 @@ export default function Home() {
     );
   }
 
-
   // Default home page
   return (
     <>
     <header style={{ textAlign: 'center', marginBottom: '20px' }}>
-      <Image src="/header.jpg" alt="Header image" width={600} height={200} style={{ objectFit: 'cover' }} />
+      <Image src="/header.jpg" alt="Header image" width={400} height={200} style={{ objectFit: 'cover' }} />
     </header>
     <main style={{ textAlign: 'center' }}>
-      <h1>Welcome</h1>
+    <TypeAnimation
+          sequence={[
+            'Welcome',
+            1000,
+            'Hi There',
+            1000,
+          ]}
+          wrapper="h1"
+          cursor={true}
+          repeat={10}
+          deletionSpeed={50}
+          style={{ fontSize: '2rem', marginBottom: '20px' }}
+        />
       <div style={{ margin: '20px' }}>
         <button onClick={() => setView('create')} style={{ padding: '10px 20px', marginRight: '10px', fontSize: '16px' }}>
           Create Room
