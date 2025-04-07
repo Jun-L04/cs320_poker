@@ -1,5 +1,5 @@
 # main.py
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from typing import Dict, List
 
 app = FastAPI()
@@ -11,10 +11,15 @@ class RoomManager:
             {}
         )  # room_id -> {username: WebSocket}
 
-    async def connect(self, room_id: str, username: str, websocket: WebSocket):
+    async def connect(
+        self, room_id: str, username: str, websocket: WebSocket, new: bool = True
+    ):
         await websocket.accept()
-        if room_id not in self.rooms:
+        print(self.rooms)
+        if room_id not in self.rooms and new:
             self.rooms[room_id] = {}
+        elif room_id not in self.rooms and not new:
+            raise HTTPException(status_code=404, detail="Item not found")
         self.rooms[room_id][username] = websocket
         await self.broadcast(room_id)
 
@@ -33,9 +38,14 @@ class RoomManager:
 manager = RoomManager()
 
 
-@app.websocket("/ws/{room_id}/{username}")
-async def websocket_endpoint(websocket: WebSocket, room_id: str, username: str):
-    await manager.connect(room_id, username, websocket)
+@app.websocket("/ws/{room_id}/{username}/{new}")
+async def websocket_endpoint(
+    websocket: WebSocket, room_id: str, username: str, new: str
+):
+    temp = False
+    if new == "True":
+        temp = True
+    await manager.connect(room_id, username, websocket, temp)
     try:
         while True:
             await websocket.receive_text()  # we don't use the message, just keep connection open
