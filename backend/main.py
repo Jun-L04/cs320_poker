@@ -1,8 +1,19 @@
 # main.py
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from typing import Dict, List
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class RoomManager:
