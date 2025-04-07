@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useWebSocket } from '@/hooks/useWebSockets';
 import Image from 'next/image';
 
 export default function JoinRoom() {
@@ -9,6 +10,20 @@ export default function JoinRoom() {
     // Replace with actual logic
     console.log('Joining room:', roomName, 'with password:', password);
     alert(`Joining room "${roomName}"`);
+  };
+  const [roomId, setRoomId] = useState("");
+  const [username, setUsername] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const path = submitted ? `${roomId}/${username}/False` : null;
+  const { players } = useWebSocket(
+    path
+  );
+
+  const handleJoin = () => {
+    if (roomId && username) {
+      setSubmitted(true);
+    }
   };
 
   return (
@@ -24,8 +39,8 @@ export default function JoinRoom() {
       <input
         type="text"
         placeholder="Room Name"
-        value={roomName}
-        onChange={(e) => setRoomName(e.target.value)}
+        value={roomId}
+        onChange={(e) => setRoomId(e.target.value)}
         style={{
           display: 'block',
           margin: '10px auto',
@@ -34,10 +49,10 @@ export default function JoinRoom() {
         }}
       />
       <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        type="username"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
         style={{
           display: 'block',
           margin: '10px auto',
@@ -45,12 +60,12 @@ export default function JoinRoom() {
           fontSize: '16px',
         }}
       />
-      <button
-        onClick={handleJoinRoom}
+      {!submitted ? <button
+        onClick={handleJoin}
         style={{ padding: '10px 20px', fontSize: '16px' }}
       >
         Join Room
-      </button>
+      </button> : <></>}
       <Image
         src="/cards.png"
         alt="Corner image"
@@ -58,6 +73,16 @@ export default function JoinRoom() {
         height={150}
         style={{ position: 'fixed', bottom: '0', right: '0' }}
       />
+      {submitted && (
+        <>
+          <h2>Players in Room:</h2>
+          <ul>
+            {players.map((player) => (
+              <li key={player}>{player}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }

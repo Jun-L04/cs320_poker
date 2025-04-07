@@ -15,7 +15,7 @@ export default function Home() {
     return (
       <>
         <button className="back-button" onClick={() => setView('home')} style={{ margin: '20px', fontSize: '14px' }}>
-        &larr; Back
+          &larr; Back
         </button>
         <CreateRoom />
       </>
@@ -27,7 +27,7 @@ export default function Home() {
     return (
       <>
         <button className="back-button" onClick={() => setView('home')} style={{ margin: '20px', fontSize: '14px' }}>
-        &larr; Back
+          &larr; Back
         </button>
         <JoinRoom />
       </>
@@ -37,11 +37,11 @@ export default function Home() {
   // Default home page
   return (
     <>
-    <header style={{ textAlign: 'center', marginBottom: '20px' }}>
-      <Image src="/header.jpg" alt="Header image" width={400} height={200} style={{ objectFit: 'cover' }} />
-    </header>
-    <main style={{ textAlign: 'center' }}>
-    <TypeAnimation
+      <header style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <Image src="/header.jpg" alt="Header image" width={400} height={200} style={{ objectFit: 'cover' }} />
+      </header>
+      <main style={{ textAlign: 'center' }}>
+        <TypeAnimation
           sequence={[
             'Welcome',
             1000,
@@ -54,15 +54,15 @@ export default function Home() {
           deletionSpeed={50}
           style={{ fontSize: '2rem', marginBottom: '20px' }}
         />
-      <div style={{ margin: '20px' }}>
-        <button onClick={() => setView('create')} style={{ padding: '10px 20px', marginRight: '10px', fontSize: '16px' }}>
-          Create Room
-        </button>
-        <button onClick={() => setView('join')} style={{ padding: '10px 20px', fontSize: '16px' }}>
-          Join Room
-        </button>
-      </div>
-    </main>
-  </>
-);
+        <div style={{ margin: '20px' }}>
+          <button onClick={() => setView('create')} style={{ padding: '10px 20px', marginRight: '10px', fontSize: '16px' }}>
+            Create Room
+          </button>
+          <button onClick={() => setView('join')} style={{ padding: '10px 20px', fontSize: '16px' }}>
+            Join Room
+          </button>
+        </div>
+      </main>
+    </>
+  );
 }
