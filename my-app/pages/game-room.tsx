@@ -11,7 +11,7 @@ const carterOne = Carter_One({
 export default function GameRoom() {
   const router = useRouter();
   const { roomName } = router.query;
-  const [players] = useState<string[]>(['player1', 'player2', 'player3','player4',]);
+  const [players] = useState<string[]>(['player1', 'player2', 'player3','player4',]); //dummy player list
   const handleStartGame = () => {
     // Replace
     console.log('Game started!');
