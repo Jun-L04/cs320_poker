@@ -1,14 +1,16 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'; //using router to get the name, can update with reference to the backend instead
 import Image from 'next/image';
 
 export default function CreateRoom() {
   const [roomName, setRoomName] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleCreateRoom = () => {
-    // Replace with actual logic
+    // Replace
     console.log('Creating room:', roomName, 'with password:', password);
-    alert(`Room "${roomName}" created!`);
+    router.push(`/game-room?roomName=${encodeURIComponent(roomName)}`);
   };
 
   return (

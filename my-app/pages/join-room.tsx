@@ -1,14 +1,16 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'; //using router to get the name, can update with reference to the backend instead
 import Image from 'next/image';
 
 export default function JoinRoom() {
   const [roomName, setRoomName] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleJoinRoom = () => {
     // Replace with actual logic
     console.log('Joining room:', roomName, 'with password:', password);
-    alert(`Joining room "${roomName}"`);
+    router.push(`/game-room?roomName=${encodeURIComponent(roomName)}`);
   };
 
   return (
