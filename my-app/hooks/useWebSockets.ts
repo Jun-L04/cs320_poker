@@ -9,7 +9,7 @@ export function useWebSocket(path: string | null) {
         if (!path) {
             return;
         }
-        const socket = new WebSocket(`ws://localhost:8000/ws/${path}`);
+        const socket = new WebSocket(`wss://cs320-poker.onrender.com/ws/${path}`);
         socketRef.current = socket;
 
         socket.onmessage = (event: MessageEvent) => {
