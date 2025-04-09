@@ -28,9 +28,9 @@ class RoomManager:
         await websocket.accept()
         if room_id not in self.rooms and new:
             self.rooms[room_id] = {}
-        if room_id in self.rooms and new:
+        elif room_id in self.rooms and new:
             raise HTTPException(status_code=404, detail="Room already created")
-        if room_id not in self.rooms and not new:
+        elif room_id not in self.rooms and not new:
             raise HTTPException(status_code=404, detail="Item not found")
         self.rooms[room_id][username] = websocket
         await self.broadcast(room_id)
