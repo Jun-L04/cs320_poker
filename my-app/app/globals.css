@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-mono);
+}
+
+/* Global Button Styles */
+button {
+  border: 2px solid transparent;
+  border-radius: 24px;
+  padding: 10px 20px;
+  background-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  font-family: var(--font-mono);
+}
+
+/* Pseudo-element for the hover image */
+button::before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 30px;
+  background-image: url('/icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  opacity: 0;
+  margin-right: 0;
+  transition: width 0.3s ease, opacity 0.3s ease, margin-right 0.3s ease;
+}
+
+/* Hover state */
+button:hover {
+  background-color: #333; 
+  color: #fff;
+}
+
+button:hover::before {
+  width: 30px;  
+  margin-right: 8px;
+  opacity: 1;
+}
+
+/* Override for the back button */
+button.back-button {
+  background-color: transparent;
+  transition: none;
+}
+
+button.back-button::before {
+  display: none;
+}
+
+button.back-button:hover {
+  text-decoration: underline; 
+  background-color: transparent;
+  color: #0a0a0a;
+}

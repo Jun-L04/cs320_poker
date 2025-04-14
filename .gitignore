@@ -1,4 +1,2 @@
-draft.py
-websocket.py
-backend/
-.venv
+backend/__pycache__
+backend/venv
