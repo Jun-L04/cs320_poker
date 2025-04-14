@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Carter_One } from 'next/font/google';
+import { useWebSocket } from '@/hooks/useWebSockets';
 
 const carterOne = Carter_One({
   subsets: ['latin'],
@@ -10,8 +11,12 @@ const carterOne = Carter_One({
 
 export default function GameRoom() {
   const router = useRouter();
-  const { roomName } = router.query;
-  const [players] = useState<string[]>(['player1', 'player2', 'player3', 'player4',]); //dummy player list
+  const { roomId, username, isCreator } = router.query;
+
+  const path = roomId && username && isCreator ? `${roomId}/${username}/${isCreator}` : null;
+  const { players } = useWebSocket(
+    path
+  );
   const handleStartGame = () => {
     // Replace
     console.log('Game started!');
@@ -26,10 +31,8 @@ export default function GameRoom() {
         position: 'relative',
       }}
     >
-      {roomName ? (
-        <p>
-          <h1 className={carterOne.className} style={{ fontSize: '3rem' }}>Welcome to  <strong>{roomName}</strong></h1>
-        </p>
+      {roomId ? (
+        <h1 className={carterOne.className} style={{ fontSize: '3rem' }}>Welcome to  <strong>{roomId}</strong></h1>
       ) : (
         <p>No room name provided.</p>
       )}

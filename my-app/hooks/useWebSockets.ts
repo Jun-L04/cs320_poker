@@ -21,6 +21,7 @@ export function useWebSocket(path: string | null) {
 
         socket.onerror = (err) => {
             console.log("WebSocket error:", err);
+            alert(err)
         };
 
         socket.onclose = () => {

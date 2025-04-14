@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useWebSocket } from '@/hooks/useWebSockets';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function CreateRoom() {
   const [roomName, setRoomName] = useState('');
   const [password, setPassword] = useState('');
-
+  const router = useRouter();
   const handleCreateRoom = () => {
     // Replace with actual logic
     console.log('Creating room:', roomName, 'with password:', password);
@@ -25,6 +26,19 @@ export default function CreateRoom() {
       setSubmitted(true);
     }
   };
+
+  useEffect(() => {
+    if (!submitted) return;
+
+    if (players.length !== 0) {
+      const queryParams = new URLSearchParams({
+        roomId,
+        username,
+        isCreator: 'True',
+      }).toString();
+      router.push(`/game-room?${queryParams}`);
+    }
+  }, [players, submitted]);
 
   return (
     <div
@@ -71,7 +85,7 @@ export default function CreateRoom() {
         style={{ position: 'fixed', bottom: '0', right: '0' }}
       />
 
-      {submitted && (
+      {/* {submitted && (
         <>
           <h2>Players in Room:</h2>
           <ul>
@@ -80,7 +94,7 @@ export default function CreateRoom() {
             ))}
           </ul>
         </>
-      )}
+      )} */}
     </div>
   );
 }
