@@ -53,6 +53,7 @@ class RoomManager:
         self.game_states[room_id]["game_active"] = True
         self.game_states[room_id]["turn_index"] = 0
         self.game_states[room_id]["pot"] = 0
+        self.game_states[room_id]["round_count"] = 1
         await self.broadcast(room_id)
     
     async def handle_action(self, room_id: str, username: str, action: str, amount: int = 0):
@@ -74,6 +75,18 @@ class RoomManager:
         state["turn_index"] = (state["turn_index"] + 1) % len(state["players"])
         if len(state["players"]) == 1:  # one player left
             await self.end_game(room_id, state["players"][0]) # TODO winner caluclation, this is placeholder
+            # reset pot
+            state["pot"] = 0
+            # if maximum round has been reached
+            # hardcoded as a max of 3 rounds
+            if state["round_count"] >= 3:
+                await self.end_game(room_id, state["players"][0]) # TODO winner calculation
+            else:
+                # changing basic attributes for next round
+                state["round_count"] += 1
+                state["players"] = list(self.rooms[room_id].keys())
+                state["turn_index"] = 0
+                await self.broadcast(room_id)
         else:
             await self.broadcast(room_id)
         
@@ -84,8 +97,10 @@ class RoomManager:
             raise HTTPException(status_code=404, detail="Room not found")
         
         state["chip_balances"][winner] += state["pot"]
+        # maybe notify all players about who won by sending a json messgage back to frontend?
         state["game_active"] = False
         state["pot"] = 0
+        state["round_count"] = 0
         await self.broadcast(room_id)
 
 
