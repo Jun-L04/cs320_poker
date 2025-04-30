@@ -69,10 +69,12 @@ class RoomManager:
             state["pot"] += amount
             state["turn_index"] = (state["turn_index"] + 1) % len(state["players"])
         elif action == "fold":  # skipping this player's turn
-            state["turn_index"] = (state["turn_index"] + 1) % len(state["players"])
             state["players"].remove(username)  # remove from list
-        # moving turn
+            current_index = state["turn_index"]
+            if current_index >= len(state["players"]):
+                current_index = 0  # wrap to beginning
 
+            state["turn_index"] = current_index % len(state["players"])
         if len(state["players"]) == 1:  # one player left
             await self.end_round(
                 room_id, state["players"][0]
