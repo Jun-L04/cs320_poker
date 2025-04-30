@@ -67,10 +67,12 @@ class RoomManager:
                 raise HTTPException(status_code=400, detail="Insufficient chips")
             state["chip_balances"][username] -= amount
             state["pot"] += amount
+            state["turn_index"] = (state["turn_index"] + 1) % len(state["players"])
         elif action == "fold":  # skipping this player's turn
+            state["turn_index"] = (state["turn_index"] + 1) % len(state["players"])
             state["players"].remove(username)  # remove from list
         # moving turn
-        state["turn_index"] = (state["turn_index"] + 1) % len(state["players"])
+
         if len(state["players"]) == 1:  # one player left
             await self.end_round(
                 room_id, state["players"][0]
