@@ -52,8 +52,8 @@ class RoomManager:
             {
                 "type": "game_started",
                 "players": usernames,
-                "turn": usernames[0],
-                "chip_balances": [5000] * len(usernames),
+                "turn": usernames[self.dealer],
+                "chip_balances": {username: 5000 for username in usernames},
                 "pot": 0,
             },
         )
@@ -64,7 +64,7 @@ class RoomManager:
         state = self.game_states.get(room_id)
         if action == "bet":
             if state["chip_balances"][username] < amount:
-                raise HTTPException(status_code=400, detail="Insufficient chips")
+                return
             state["chip_balances"][username] -= amount
             state["pot"] += amount
             state["turn_index"] = (state["turn_index"] + 1) % len(state["players"])
@@ -98,12 +98,12 @@ class RoomManager:
         if winner in state["chip_balances"]:
             state["chip_balances"][winner] += state["pot"]
 
+        self.dealer = (self.dealer + 1) % len(usernames)
+
         # End the game
         self.game_states[room_id]["turn_index"] = self.dealer
         self.game_states[room_id]["players"] = usernames
         self.game_states[room_id]["pot"] = 0
-
-        self.dealer = (self.dealer + 1) % len(usernames)
 
         await self.broadcast_custom(
             room_id,
